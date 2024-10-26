@@ -2,6 +2,11 @@ import { useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { Link } from 'react-router-dom';
 import OAuth from "../components/OAuth";
+import { db } from '../firebase'
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
 
@@ -13,12 +18,39 @@ export default function SignUp() {
   });
 
   const { name, email, password } = formData;
+  const navigate = useNavigate();
 
   function onChange(e) {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value
     }));
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault()
+
+    try {
+      const auth = getAuth()
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+
+      updateProfile(auth.currentUser, { displayName: name })
+
+      const user = userCredential.user;
+
+      const formDataCopy = { ...formData };
+      delete formDataCopy.password;
+      formDataCopy.timestamp = serverTimestamp();
+
+      await setDoc(doc(db, "users", user.uid), formDataCopy)
+
+      // toast.success("Sign up was successful")
+
+      // navigate("/")
+    } catch (error) {
+      toast.error("Something went wrong with the registration!")
+    }
+
   }
 
   return (
@@ -31,7 +63,7 @@ export default function SignUp() {
         </div>
 
         <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
-          <form>
+          <form onSubmit={onSubmit}>
             <input className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out mb-6" type="text" id="name" value={name} onChange={onChange} placeholder="Full name" />
 
             <input className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out mb-6" type="email" id="email" value={email} onChange={onChange} placeholder="Email address" />
