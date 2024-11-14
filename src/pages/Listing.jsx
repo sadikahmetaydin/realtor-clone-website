@@ -10,6 +10,7 @@ import 'swiper/css/bundle';
 import { FaShare, FaMapMarkerAlt, FaBed, FaBath, FaParking, FaChair } from "react-icons/fa";
 import { getAuth } from 'firebase/auth';
 import Contact from '../components/Contact';
+import map from '../assets/demo-map.jpg';
 
 export default function Listing() {
 
@@ -110,8 +111,10 @@ export default function Listing() {
 
         </div>
 
-        <div className="bg-blue-300 w-full h-[200px] lg-[400px] z-10 overflow-x-hidden">
-
+        <div className="w-full h-[400px] lg-[400px] z-10 overflow-x-hidden">
+          <div className=''>
+            <img className='w-full h-[400px] lg-[400px] z-10 overflow-x-hidden' src={map} alt="" />
+          </div>
         </div>
       </div>
 
