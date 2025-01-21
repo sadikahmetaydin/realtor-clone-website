@@ -2,8 +2,7 @@
 A realtor website clone build with reactjs, tailwindcss and firebase.
 
 # 💡About this project 
-...
-
+In this project it consists of 3 parts. First one is backend, second one is frontend and last one is admin. You can easily sign up and sign in that page. After the sign in you'll see profile page, that in the part you can give your own home easily rent or sell. You can easily create advert for your home, and then you will give lots of information in this advert. If wonder someone advert, you can go to home page to review other people adverts.
 
 ## ⚡Technologies
 * `REACT JS`
